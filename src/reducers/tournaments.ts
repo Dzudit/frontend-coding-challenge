@@ -21,6 +21,7 @@ export default function tournaments(state: any = initialState, action: any) {
     case FETCH_TOURNAMENTS_FAILURE:
       return {
         ...state,
+        tournaments: [],
         error: action.payload,
         status: 'error'
       };

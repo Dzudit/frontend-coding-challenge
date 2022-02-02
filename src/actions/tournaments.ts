@@ -4,19 +4,7 @@ import {
   FETCH_TOURNAMENTS_FAILURE
 } from './tournaments-types';
 import { fetchTournaments } from '../constants/tournaments-services';
-
-type IParticipants = {
-  current: number;
-  string: number;
-};
-interface ITournaments {
-  id: string;
-  game: string;
-  name: string;
-  organizer: string;
-  startDate: Date;
-  participants: IParticipants;
-}
+import { ITournament } from '../Types/tournaments';
 
 export const fetchTournamentsStart = () => {
   return {
@@ -24,7 +12,7 @@ export const fetchTournamentsStart = () => {
   };
 };
 
-export const fetchTournamentsSuccess = (tournaments: ITournaments[]) => {
+export const fetchTournamentsSuccess = (tournaments: ITournament[]) => {
   return {
     type: FETCH_TOURNAMENTS_SUCCESS,
     payload: tournaments
@@ -46,7 +34,7 @@ export const getTournaments = () => {
         dispatch(fetchTournamentsSuccess(resp.data));
       })
       .catch(error => {
-        dispatch(fetchTournamentsFailure(error.message));
+        dispatch(fetchTournamentsFailure(error));
       });
   };
 };
