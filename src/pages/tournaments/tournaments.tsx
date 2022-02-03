@@ -12,11 +12,6 @@ import Button from '../../components/Button';
 import { ITournament } from '../../Types/tournaments';
 import Card from '../../components/Card';
 
-interface IData {
-  tournaments: ITournament[];
-  status: string;
-}
-
 const state = {
   LOADING: 'loading',
   ERROR: 'error',

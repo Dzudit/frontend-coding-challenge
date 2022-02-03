@@ -14,7 +14,20 @@ const initialState = {
   error: ''
 };
 
-export default function tournaments(state: any = initialState, action: any) {
+interface IState {
+  status: string;
+  tournaments: ITournament[];
+  error: string;
+}
+interface IAction {
+  type: string;
+  payload: any;
+}
+
+export default function tournaments(
+  state: IState = initialState,
+  action: IAction
+) {
   switch (action.type) {
     case FETCH_TOURNAMENTS_SUCCESS:
       return {
