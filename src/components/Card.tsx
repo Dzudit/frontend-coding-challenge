@@ -4,7 +4,7 @@ import React from 'react';
 import H6 from './H6';
 import Button from './Button';
 import { useDispatch } from 'react-redux';
-import { deleteTournaments } from '../actions/tournaments';
+import { deleteTournaments, editTournamentName } from '../actions/tournaments';
 
 const Card = (props: ITournament) => {
   const dispatch = useDispatch();
@@ -15,9 +15,10 @@ const Card = (props: ITournament) => {
   };
 
   const onEdit = (id: string) => {
-    console.log('id to delete', id);
     let value = prompt('New Tournament Name:');
-    console.log('value', value);
+    if (value) {
+      dispatch(editTournamentName(id, value));
+    }
   };
 
   return (

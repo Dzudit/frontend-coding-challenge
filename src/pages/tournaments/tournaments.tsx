@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './tournaments.sass';
 import { useDispatch } from 'react-redux';
-import { getTournaments, searchTournaments } from '../../actions/tournaments';
+import {
+  getTournaments,
+  searchTournaments,
+  createNewTournament
+} from '../../actions/tournaments';
 import { useTournaments } from '../../selectors/tournaments';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { ITournament } from '../../Types/tournaments';
 import Card from '../../components/Card';
-import Modal from '../../components/Modal';
 
 interface IData {
   tournaments: ITournament[];
@@ -67,6 +70,13 @@ const Tournaments: React.FC = () => {
     setTypingTimeout(timer);
   };
 
+  const onCreateTournament = () => {
+    let value = prompt('New Tournament Name:');
+    if (value) {
+      dispatch(createNewTournament(value));
+    }
+  };
+
   return (
     <div className="content">
       <div className="tools__container">
@@ -76,7 +86,13 @@ const Tournaments: React.FC = () => {
             searchTournamentsInputTyping(e.target.value);
           }}
         />
-        <Button>Create Tournament</Button>
+        <Button
+          onClick={() => {
+            onCreateTournament();
+          }}
+        >
+          Create Tournament
+        </Button>
       </div>
       <div className="status">{statusShow(data.status)}</div>
       {isDataLoaded() && (

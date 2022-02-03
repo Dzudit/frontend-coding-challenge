@@ -18,13 +18,18 @@ export const findTournaments = (value: string): Promise<IResponseData> => {
   return axios.get(API_TOURNAMENTS_URL + '?q=' + value);
 };
 
-export const editTournament = (name: string): Promise<IResponseData> => {
-  return axios.patch(API_TOURNAMENTS_URL, {
+export const editTournament = (
+  id: string,
+  name: string
+): Promise<{ data: ITournament }> => {
+  return axios.patch(API_TOURNAMENTS_URL + '/' + id, {
     name: name
   });
 };
 
-export const createTournament = (name: string): Promise<IResponseData> => {
+export const createTournament = (
+  name: string
+): Promise<{ data: ITournament }> => {
   return axios.post(API_TOURNAMENTS_URL, {
     name: name
   });
