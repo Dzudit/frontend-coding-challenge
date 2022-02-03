@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './tournaments.sass';
 import { useDispatch } from 'react-redux';
-import { getTournaments } from '../../actions/tournaments';
+import { getTournaments, searchTournaments } from '../../actions/tournaments';
 import { useTournaments } from '../../selectors/tournaments';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { ITournament } from '../../Types/tournaments';
 import Card from '../../components/Card';
+import Modal from '../../components/Modal';
 
 interface IData {
   tournaments: ITournament[];
@@ -22,6 +23,7 @@ const state = {
 const Tournaments: React.FC = () => {
   const dispatch = useDispatch();
   const { tournaments: data } = useTournaments();
+  const [typingTimeout, setTypingTimeout] = useState<any>();
 
   useEffect(() => {
     dispatch(getTournaments());
@@ -49,12 +51,31 @@ const Tournaments: React.FC = () => {
 
   const isDataLoaded = () => data?.status === state.LOADED;
 
-  console.log('data', data);
+  const searchRequest = (value: string) => {
+    if (value === '') {
+      dispatch(getTournaments());
+    } else dispatch(searchTournaments(value));
+  };
+
+  const searchTournamentsInputTyping = (value: string) => {
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+    let timer = setTimeout(function() {
+      searchRequest(value);
+    }, 1500);
+    setTypingTimeout(timer);
+  };
 
   return (
     <div className="content">
       <div className="tools__container">
-        <Input />
+        <Input
+          placeholder="Search tournament ..."
+          onChange={e => {
+            searchTournamentsInputTyping(e.target.value);
+          }}
+        />
         <Button>Create Tournament</Button>
       </div>
       <div className="status">{statusShow(data.status)}</div>
@@ -73,6 +94,7 @@ const Tournaments: React.FC = () => {
           )}
         </div>
       )}
+      {/* <Modal title='Do you really want to delete this tournament?' open = {true}/> */}
     </div>
   );
 };

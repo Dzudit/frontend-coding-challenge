@@ -3,8 +3,23 @@ import './styles/card.sass';
 import React from 'react';
 import H6 from './H6';
 import Button from './Button';
+import { useDispatch } from 'react-redux';
+import { deleteTournaments } from '../actions/tournaments';
 
 const Card = (props: ITournament) => {
+  const dispatch = useDispatch();
+
+  const onDelete = (id: string) => {
+    let value = window.confirm('Do you really want to delete this tournament?');
+    if (value) dispatch(deleteTournaments(id));
+  };
+
+  const onEdit = (id: string) => {
+    console.log('id to delete', id);
+    let value = prompt('New Tournament Name:');
+    console.log('value', value);
+  };
+
   return (
     <div className="card">
       <H6>{props.name}</H6>
@@ -22,8 +37,21 @@ const Card = (props: ITournament) => {
         })}{' '}
       </div>
       <div className="card__action">
-        <Button className="button--edit">EDIT</Button>
-        <Button>DELETE</Button>
+        <Button
+          onClick={() => {
+            onEdit(props.id);
+          }}
+          className="button--edit"
+        >
+          EDIT
+        </Button>
+        <Button
+          onClick={() => {
+            onDelete(props.id);
+          }}
+        >
+          DELETE
+        </Button>
       </div>
     </div>
   );
